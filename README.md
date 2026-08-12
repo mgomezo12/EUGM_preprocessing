@@ -3,7 +3,7 @@
 Code behind *Analysis-ready European Groundwater Monitoring (EUGM) database*
 (Gomez et al.).
 
-The dataset itself is not in this repository — it's archived separately on
+The dataset itself is not in this repository, it's archived separately on
 Zenodo: https://doi.org/10.5281/zenodo.21891416. To run any script here that
 reads `data/...`, download the dataset from that DOI and place the CSV files
 in a `data/` folder at the root of this repo; it's `.gitignore`d here since
