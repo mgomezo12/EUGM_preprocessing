@@ -1,0 +1,53 @@
+# Requirements to reproduce the results in this repo's scripts/ folder.
+# Compiled from the actual imports across preprocessing/, plotting/,
+# dynamic_features/, and gseu_preprocessing/.
+
+# Core data processing
+pandas>=1.5.0
+numpy>=1.21.0
+pyarrow>=10.0.0        # gseu_preprocessing/after_filter_pipeline.py (parquet I/O)
+
+# Geospatial analysis
+geopandas>=0.12.0
+shapely>=1.8.0
+
+# Visualization
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# Scientific computing
+scipy>=1.9.0
+# pymannkendall is NOT a pip dependency here - trends/pymannkendall.py vendors
+# v1.4.2 directly (same directory as trends/mks_trend.py, so it's imported in
+# preference to any pip-installed copy). Confirmed necessary, not cosmetic:
+# pymannkendall>=1.4.3 silently drops `slope_ci` from the result object
+# returned by hamed_rao_modification_test/correlated_seasonal_test, which
+# mks_trend.py depends on - trend computation fails outright for a large
+# fraction of stations on newer versions.
+
+# Groundwater signatures. autocorr_time is NOT computed via pastas' own
+# function - gseu_preprocessing/signatures_pipeline.py's
+# _autocorr_time_fixed replaces it, working around a version-dependent bug
+# in pastas' ccf() for regularly-spaced monthly data (confirmed present in
+# 1.14.0, confirmed absent in 1.7.0). The latest pastas is safe to use for
+# the other 15 signatures.
+pastas>=1.5.0
+
+# Dynamic features / ERA5 extraction (scripts/dynamic_features/)
+xarray>=2022.3.0
+rioxarray>=0.13.0
+
+# Parallel processing
+joblib>=1.2.0
+
+# Configuration
+configparser>=5.0.0
+
+# ---------------------------------------------------------------------------
+# Known incompatibility: scripts/gseu_preprocessing/utils_geo.py's
+# plot_numeric_map_with_histogram() calls the deprecated plt.cm.get_cmap(),
+# removed in matplotlib >= 3.9. If a fresh install pulls in a newer
+# matplotlib (e.g. as a pastas/geopandas dependency) and this call fails,
+# either constrain matplotlib to <3.9, or patch the call site to use
+# matplotlib.colormaps[name] directly - the two are otherwise equivalent.
+# ---------------------------------------------------------------------------
