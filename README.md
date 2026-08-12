@@ -70,7 +70,7 @@ These scripts fall into two categories:
 
 ## License
 
-CC BY 4.0 
+CC BY 4.0 (see `LICENSE`)
 
 ## Citation
 
