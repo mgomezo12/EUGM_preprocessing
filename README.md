@@ -13,17 +13,17 @@ it doesn't belong in a code repository.
 
 These scripts fall into two categories:
 
-- **Scripts that run directly against the published `data/*.csv` files** —
+- **Scripts that run directly against the published `data/*.csv` files** 
   `plotting/` and the map/table-generating parts of `gseu_preprocessing/`.
   These are fully reproducible once you've downloaded `data/` from Zenodo.
 - **Scripts that describe how the raw groundwater level time series became the
-  published dataset** — `preprocessing/` and the QC/filtering/imputation
+  published dataset** `preprocessing/` and the QC/filtering/imputation
   parts of `gseu_preprocessing/`. The raw time series themselves are **not**
   published anywhere,  so these scripts cannot be re-run end-to-end. They're
   published so the exact method is inspectable and any question about it
   can be answered from the code.
 
-- `preprocessing/` — quality control, monthly resampling, gap and outlier
+- `preprocessing/` quality control, monthly resampling, gap and outlier
   filtering that turns raw partner submissions into the filtered dataset
   (paper §2 and §4). `shift_detection/detect_level_shifts_ppf1.py` is the
   method described in §4.2 (rolling pre/post-median comparison) — the basis
@@ -41,38 +41,36 @@ These scripts fall into two categories:
   code included here, but the underlying cluster analysis isn't reproducible
   here — that script consumes `data/trends_cluster.csv`'s `cluster_number`
   column, already published. 
-- `trends/` — Mann-Kendall trend test with Theil-Sen/seasonal Sen's slope
+- `trends/`  Mann-Kendall trend test with Theil-Sen/seasonal Sen's slope
   (§6, Fig. 7), reproducing `trends_cluster.csv`'s `tac_*` columns from
   `data/EUGM_gwl.csv` alone. `mks_trend.py` is transcribed unmodified from
   the original methodology code (W.J. Zaadnoordijk, TNO-GDN);
   `compute_trends.py` is the only adapted part, pointed at the published
   schema instead of the original per-station CSV export. It does **not**
-  reproduce `cluster_number` — the SGI-based k-means clustering is a
+  reproduce `cluster_number` the SGI-based k-means clustering is a
   separate BGS/TNO step with no code in this release, so `trends_cluster.csv`
   remains the file to use for cluster assignments. `pymannkendall.py` is a
   vendored copy of a third-party package (v1.4.2, Hussain et al., 2019,
   MIT-licensed) pinned deliberately: newer pip releases drop an attribute
   (`slope_ci`) this code depends on, which silently breaks trend computation
   for most stations.
-- `gseu_preprocessing/` — shared library used by both of the above; includes
+- `gseu_preprocessing/`  shared library used by both of the above; includes
   a safety net (`truncate_trailing_nan` in `gap_analysis.py`) that trims any
   station's trailing all-NaN run before imputation, plus two manually
-  identified station corrections not caught by any automated rule — see the
-  data repository's `README.md` for detail.
-- `dynamic_features/` — ERA5-Land download, point-extraction, and SPI
+  identified station corrections not caught by any automated rule.
+- `dynamic_features/` ERA5-Land download, point-extraction, and SPI
   scripts (Table 2): downloads ERA5-Land monthly-mean NetCDF from the
   Copernicus Climate Data Store for the area covered by the monitoring
   points, extracts values at each point, and computes relative humidity and
   the Standardised Precipitation Index (SPI1/6/12/48). Unlike
   `preprocessing/`, this one *is* runnable end-to-end
-  (`data/EUGM_mp.csv` provides the point locations) — it just needs your
+  (`data/EUGM_mp.csv` provides the point locations), needs your
   own CDS API credentials and will re-download the full 1950-present
-  archive (a genuine, if slow, dependency on an external public data
-  source, not on unpublished raw data).
+  archive.
 
 ## License
 
-CC BY 4.0 — see `LICENSE`.
+CC BY 4.0 
 
 ## Citation
 
