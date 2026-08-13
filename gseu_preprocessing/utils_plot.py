@@ -180,7 +180,7 @@ def plot_monthly_station_counts(df, time_col='TimeInstant', id_col='id_mp', save
         'CY': 'Others', 'CZ': 'Czech Republic', 'DE': 'Germany', 'DK': 'Others',
         'EE': 'Estonia', 'EL': 'Greece', 'ES': 'Spain', 'FI': 'Others', 'FR': 'France',
         'HR': 'Others', 'HU': 'Others', 'IE': 'Others', 'IS': 'Others', 'IT': 'Others',
-        'LT': 'Lithuania', 'LU': 'Luxembourg', 'LV': 'Latvia', 'MT': 'Others', 'NL': 'Others',
+        'LT': 'Lithuania', 'LU': 'Luxembourg', 'LV': 'Latvia', 'MT': 'Others', 'NL': 'Netherlands',
         'NO': 'Norway', 'PL': 'Others', 'PT': 'Portugal', 'RO': 'Others', 'RS': 'Others',
         'SE': 'Sweden', 'SI': 'Others', 'SK': 'Slovakia', 'UK': 'Others', 'FI': 'Others'
     }
@@ -197,6 +197,7 @@ def plot_monthly_station_counts(df, time_col='TimeInstant', id_col='id_mp', save
     fixed_palette = {
         "Germany": "#44AA99",
         "Austria": "#DDCC77",
+        "Netherlands": "#6699CC",
         "France": "#332288",
         "Czech Republic": "#CC6677",
         "Spain": "#88CCEE",

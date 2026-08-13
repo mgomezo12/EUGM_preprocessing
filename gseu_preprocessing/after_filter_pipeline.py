@@ -156,9 +156,10 @@ def run_after_filter_plots(
     # This copy is trimmed to reproduce only the figures actually used in
     # the manuscript. The other plots below (density, elevation/depth/
     # screen-length histograms, ScreenTop/ScreenBottom maps, the plain
-    # years-of-data histogram, the Pumping category map, monthly station
-    # counts, country-prefix QA) are exploratory/diagnostic outputs not
-    # part of the manuscript - kept here, commented out, for reference.
+    # years-of-data histogram, the Pumping category map, country-prefix QA)
+    # are exploratory/diagnostic outputs not part of the manuscript - kept
+    # here, commented out, for reference. Monthly station counts (below) is
+    # NOT diagnostic-only - it produces Figure 2c.
 
     # density_df, _ = compute_spatial_density(gdf_points, gdfload)
     # plot_density_histograms(density_df, fig_dir / "d")
@@ -249,12 +250,13 @@ def run_after_filter_plots(
     #     column='Pumping',
     #     save_path=fig_dir / "pumping",
     # )
-    # plot_monthly_station_counts(
-    #     ts_df,
-    #     time_col='TimeInstant',
-    #     id_col='id_mp',
-    #     save_path=fig_dir / "obs_per_month.png",
-    # )
+    # Monthly station-count time series -> Figure 2c
+    plot_monthly_station_counts(
+        ts_df,
+        time_col='TimeInstant',
+        id_col='id_mp',
+        save_path=fig_dir / "obs_per_month.png",
+    )
     # verify_country_prefix_alignment(
     #     gdf_points=gdf_points,
     #     gdf_boundary=gdfload,
