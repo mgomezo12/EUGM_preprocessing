@@ -729,9 +729,14 @@ def run_signatures_pipeline(
             max_points=max_mp,
             show_progress=True,
         )
-        sig_df.to_csv(sig_out, index=False)
+        # Published schema is wide (one row per id_mp, one column per
+        # signature) - matches data/gw_signatures.csv exactly. compute_
+        # signatures_dataframe returns tidy/long (id_mp, signature, value);
+        # pivot before writing so --skip-compute can read the real file back.
+        sig_df.pivot(index="id_mp", columns="signature", values="value").to_csv(sig_out)
     else:
-        sig_df = pd.read_csv(sig_out)
+        wide = pd.read_csv(sig_out, index_col="id_mp")
+        sig_df = wide.reset_index().melt(id_vars="id_mp", var_name="signature", value_name="value")
         print(f"Loaded existing signatures from {sig_out}")
 
     fig_dir = Path(fig_dir)
@@ -786,8 +791,8 @@ def run_signatures_pipeline(
     #     single_axis=False,
     # )
 
-    print(f"Computed signatures for {sig_df['id_mp'].nunique()} monitoring points.")
-    print(f"Saved signatures table to {sig_out}")
+    print(f"Signatures for {sig_df['id_mp'].nunique()} monitoring points "
+          f"({'computed and saved to' if compute else 'loaded from'} {sig_out}).")
     print(f"Saved signature maps and grids to {fig_dir}")
 
 
